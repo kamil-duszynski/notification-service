@@ -28,7 +28,7 @@ class NotificationManager
         private readonly LoggerInterface $logger
     ) {}
 
-    public static function addProvider(NotificationProviderInterface $provider): void
+    public function addProvider(NotificationProviderInterface $provider): void
     {
         $channel = $provider->getChannel();
 
@@ -37,6 +37,23 @@ class NotificationManager
         }
 
         self::$providers[$channel] = $provider;
+    }
+
+    public function prepareChannels(array $channels): void
+    {
+        foreach (self::$providers as $channel => $provider) {
+            if (false === in_array($channel, $channels)) {
+                unset(self::$providers[$channel]);
+
+                continue;
+            }
+
+            if (true === $channels[$channel]) {
+                continue;
+            }
+
+            unset(self::$providers[$channel]);
+        }
     }
 
     public function create(string $type, User $recipient, string $channel): self

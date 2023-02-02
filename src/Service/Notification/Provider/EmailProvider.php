@@ -34,13 +34,7 @@ class EmailProvider implements NotificationProviderInterface
             ->subject($title)
             ->text($message);
 
-        try {
-            $this->mailer->send($email);
-        } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die();
-        }
-
+        $this->mailer->send($email);
     }
 
     public function getChannel(): string

@@ -31,7 +31,7 @@ class NotificationFactory
     private function loadConfig(string $type): array
     {
         $notificationFilePath = sprintf(
-            'config/notifications/%s.notification.yaml',
+            'config/notifications/types/%s.notification.type.yaml',
             $type
         );
 
