@@ -1,0 +1,4 @@
+notification:
+  test:
+    message: To jest testowa treść powiadomienia
+    title: Testowe powiadomienie

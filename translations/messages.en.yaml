@@ -1,0 +1,4 @@
+notification:
+  test:
+    message: This is a test notification message
+    title: Test notification
