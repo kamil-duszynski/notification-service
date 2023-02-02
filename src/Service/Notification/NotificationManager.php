@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Service\Notification;
 
 use App\Entity\User;
-use App\Factory\NotificationFactory;
+use App\Factory\NotificationFactory as NotificationModelFactory;
+use App\Repository\NotificationRepository;
+use App\Service\Notification\Factory\NotificationFactory as NotificationEntityFactory;
 use App\Model\Notification;
 use App\Service\Notification\Provider\NotificationProviderInterface;
 use Exception;
@@ -21,7 +23,8 @@ class NotificationManager
     private ?Notification $notification = null;
 
     public function __construct(
-        private readonly NotificationFactory $notificationFactory,
+        private readonly NotificationModelFactory $notificationModelFactory,
+        private readonly NotificationRepository $notificationRepository,
         private readonly LoggerInterface $logger
     ) {}
 
@@ -38,7 +41,7 @@ class NotificationManager
 
     public function create(string $type, User $recipient, string $channel): self
     {
-        $this->notification = $this->notificationFactory->create(
+        $this->notification = $this->notificationModelFactory->create(
             $type,
             $recipient,
             $channel
@@ -73,13 +76,13 @@ class NotificationManager
         while (null !== $provider) {
             try {
                 $provider->send($notification);
+                $this->persistNotification($notification);
 
                 // clear provider & notification after sending
                 $provider           = null;
                 $this->notification = null;
             } catch (Exception $exception) {
-                /** @var null|NotificationProviderInterface $provider */
-                $provider = isset(array_values($providers)[0]) ?? null;
+                $provider = array_values($providers)[0] ?? null;
 
                 if (null === $provider) {
                     return;
@@ -95,9 +98,17 @@ class NotificationManager
                 $this->logger->notice($noticeMessage);
 
                 $channel = $provider->getChannel();
+                $this->notification->setChannel($channel);
 
                 unset($providers[$channel]);
             }
         }
+    }
+
+    protected function persistNotification(Notification $notification):void
+    {
+        $notificationEntity = NotificationEntityFactory::createFromNotificationModel($notification);
+
+        $this->notificationRepository->save($notificationEntity, true);
     }
 }

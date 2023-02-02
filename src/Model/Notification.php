@@ -7,12 +7,16 @@ use App\Entity\User;
 
 class Notification
 {
+    private string $channel;
+
     public function __construct(
         private readonly string $title,
         private readonly string $message,
         private readonly User $recipient,
-        private readonly string $channel
-    ) {}
+        string $channel
+    ) {
+        $this->channel = $channel;
+    }
 
     public function getTitle(): string
     {
@@ -32,5 +36,12 @@ class Notification
     public function getChannel(): string
     {
         return $this->channel;
+    }
+
+    public function setChannel(string $channel): self
+    {
+        $this->channel = $channel;
+
+        return $this;
     }
 }

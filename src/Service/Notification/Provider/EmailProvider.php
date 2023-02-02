@@ -5,11 +5,10 @@ namespace App\Service\Notification\Provider;
 
 use App\Model\Notification;
 
-class EmailProvider extends AbstractProvider
+class EmailProvider implements NotificationProviderInterface
 {
-    public function send(Notification $notification)
+    public function send(Notification $notification): void
     {
-        // TODO: Implement send() method.
     }
 
     public function getChannel(): string

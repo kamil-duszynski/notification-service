@@ -19,7 +19,8 @@
         "symfony/options-resolver": "6.2.*",
         "symfony/runtime": "6.2.*",
         "symfony/translation": "6.2.*",
-        "symfony/yaml": "6.2.*"
+        "symfony/yaml": "6.2.*",
+        "twilio/sdk": "*"
     },
     "config": {
         "allow-plugins": {

@@ -7,7 +7,7 @@ use App\Model\Notification;
 
 interface NotificationProviderInterface
 {
-    public function send(Notification $notification);
+    public function send(Notification $notification): void;
 
     public function getChannel(): string;
 }
