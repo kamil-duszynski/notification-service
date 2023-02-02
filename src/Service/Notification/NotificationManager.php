@@ -99,6 +99,5 @@ class NotificationManager
                 unset($providers[$channel]);
             }
         }
-
     }
 }
