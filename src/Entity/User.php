@@ -11,6 +11,9 @@ use libphonenumber\PhoneNumber;
 #[ORM\Table(name: '`user`')]
 class User
 {
+    public const LOCALE_PL = 'pl';
+    public const LOCALE_EN = 'en';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,6 +30,9 @@ class User
 
     #[ORM\Column(type: 'phone_number')]
     private ?PhoneNumber $phoneNumber = null;
+
+    #[ORM\Column(length: 2)]
+    private string $locale = self::LOCALE_EN;
 
     public function getId(): ?int
     {
@@ -77,6 +83,18 @@ class User
     public function setPhoneNumber(?PhoneNumber $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
 
         return $this;
     }
