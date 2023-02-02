@@ -7,6 +7,7 @@ parameters:
     twilio_sid: '%env(TWILLIO_SID)%'
     twilio_token: '%env(TWILLIO_TOKEN)%'
     twilio_number: '%env(TWILLIO_NUMBER)%'
+    mailer_sender_email: '%env(MAILER_SENDER_EMAIL)%'
 
 services:
     # default configuration for services in *this* file
@@ -15,6 +16,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $twilioNumber: '%twilio_number%'
+            $mailerSenderEmail: '%mailer_sender_email%'
 
     _instanceof:
         App\Service\Notification\Provider\NotificationProviderInterface:

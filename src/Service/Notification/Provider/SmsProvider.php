@@ -17,7 +17,9 @@ class SmsProvider implements NotificationProviderInterface
         $phoneNumber = $recipient->getPhoneNumber();
 
         if (null === $phoneNumber) {
-            throw new InvalidArgumentException("Recipient ($recipient) has not specified phone number");
+            throw new InvalidArgumentException(
+                "Recipient ($recipient) has not specified phone number"
+            );
         }
 
         $to      = sprintf(

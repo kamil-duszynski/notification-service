@@ -101,6 +101,13 @@ class User
 
     public function __toString(): string
     {
-        return $this->getEmail();
+        $name    = $this->getName();
+        $surname = $this->getSurname();
+
+        return sprintf(
+            '%s %s',
+            $name,
+            $surname
+        );
     }
 }
